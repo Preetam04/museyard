@@ -2,13 +2,16 @@
 
 import { Upload } from "lucide-react";
 import { Button } from "./ui/button";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Input } from "./ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { MyContext } from "@/lib/context";
 
 export default function UploadText() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [textFile, setTextFile] = useState<File | null>(null);
+
+  const { setText } = useContext(MyContext);
 
   const { toast } = useToast();
 
@@ -30,14 +33,11 @@ export default function UploadText() {
     if (textFile?.type === "text/plain") {
       const reader = new FileReader();
       reader.onload = (event) => {
-        localStorage.setItem(
-          "local-text",
-          JSON.stringify(event.target?.result)
-        );
+        setText(JSON.stringify(event.target?.result));
       };
       reader.readAsText(textFile);
     }
-  }, [textFile]);
+  }, [setText, textFile]);
 
   return (
     <div className="flex items-end gap-2">
