@@ -1,4 +1,5 @@
 "use server";
+import { ContentData } from "@/components/ai-analysis";
 import OpenAI from "openai";
 
 type Categories = {
@@ -116,10 +117,13 @@ export async function analysisLocal(logs: string) {
 
   // Basic timestamp analysis
   const timestampCounts = categories.timestamps.reduce((acc, ts) => {
-    const date = ts.match(/\d{1,2}\/\d{1,2}\/\d{2,4}/)[0];
-    acc[date] = (acc[date] || 0) + 1;
+    const match = ts.match(/\d{1,2}\/\d{1,2}\/\d{2,4}/);
+    if (match) {
+      const date = match[0];
+      acc[date] = (acc[date] || 0) + 1;
+    }
     return acc;
-  }, {});
+  }, {} as Record<string, number>);
 
   return { categories, timestampCounts };
 }
@@ -342,7 +346,7 @@ export async function analysisWithAI(text: string) {
       response?.choices[0].message.content &&
       JSON.parse(response?.choices[0].message.content);
 
-    return data as DataAnalysis;
+    return data as ContentData;
   } catch (error) {
     console.log(error);
   }

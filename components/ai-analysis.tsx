@@ -35,7 +35,7 @@ interface Insights {
   groupedThemes: GroupedThemes;
 }
 
-interface ContentData {
+export interface ContentData {
   smartContentCategorization: ContentCategorization;
   themeDetection: ThemeDetection;
   patternRecognition: PatternRecognition;
@@ -50,22 +50,22 @@ interface AIDashboardProps {
 }
 
 // Component
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Lightbulb } from "lucide-react";
+import React from "react";
 import {
-  BarChart,
   Bar,
+  BarChart,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
-import { BookOpen, Quote, Lightbulb, Music, Link } from "lucide-react";
 
 const COLORS = [
   "#4F46E5",
@@ -75,23 +75,6 @@ const COLORS = [
   "#C7D2FE",
   "#E0E7FF",
 ];
-
-const getIconForRelationType = (type: string): React.ReactNode => {
-  switch (type.toLowerCase()) {
-    case "reading goals":
-      return <BookOpen className="h-4 w-4" />;
-    case "motivational quote":
-    case "resonating quote":
-      return <Quote className="h-4 w-4" />;
-    case "focus music":
-      return <Music className="h-4 w-4" />;
-    case "core insight":
-    case "personal insight":
-      return <Lightbulb className="h-4 w-4" />;
-    default:
-      return <Link className="h-4 w-4" />;
-  }
-};
 
 const AIDashboard: React.FC<AIDashboardProps> = ({ data }) => {
   const categoryChartData = data.smartContentCategorization.categories.map(

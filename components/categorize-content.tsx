@@ -22,7 +22,7 @@ export default function CategorizeContent({ data }: { data: LogAnalysis }) {
     return timestamp.match(/\[(.*?)\]/)?.[1] || timestamp;
   };
 
-  const parseNote = (note) => {
+  const parseNote = (note: string) => {
     const [timestamp, content] = note.split("] ");
     return {
       timestamp: formatTimestamp(timestamp + "]"),
@@ -73,7 +73,7 @@ export default function CategorizeContent({ data }: { data: LogAnalysis }) {
                 <CardContent className="p-4">
                   <div className="flex space-x-4">
                     <Quote className="w-4 h-4 text-gray-400 flex-shrink-0 mt-1" />
-                    <p className="text-gray-700 italic">{quote}</p>
+                    <p className="text-card-foreground italic">{quote}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -91,14 +91,14 @@ export default function CategorizeContent({ data }: { data: LogAnalysis }) {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         <PenLine className="w-4 h-4 text-gray-400" />
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-card-foreground/50">
                           {timestamp}
                         </span>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-700 whitespace-pre-wrap">
+                    <p className="text-card-foreground whitespace-pre-wrap">
                       {content}
                     </p>
                   </CardContent>
@@ -114,7 +114,7 @@ export default function CategorizeContent({ data }: { data: LogAnalysis }) {
               <Card key={index} className="mb-4">
                 <CardContent className="flex items-center space-x-4 p-4">
                   <BookMarked className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-700">{book}</span>
+                  <span className="text-card-foreground">{book}</span>
                 </CardContent>
               </Card>
             ))}

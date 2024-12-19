@@ -3,15 +3,15 @@
 import { useToast } from "@/hooks/use-toast";
 import { analysisLocal, analysisWithAI, LogAnalysis } from "@/lib/analysis";
 import { MyContext } from "@/lib/context";
+import { LoaderCircle } from "lucide-react";
 import { useContext, useState } from "react";
 import AIDashboard, { ContentData } from "./ai-analysis";
 import CategorizeContent from "./categorize-content";
 import { Button } from "./ui/button";
-import { LoaderCircle } from "lucide-react";
 
 export default function Content() {
   const { text } = useContext(MyContext);
-  const [aiData, setAiData] = useState<ContentData | undefined>({
+  const [aiData, setAiData] = useState<ContentData>({
     smartContentCategorization: {
       categories: [],
       confidenceScores: [],
@@ -34,7 +34,10 @@ export default function Content() {
       organizedInsights: [],
       groupedThemes: {
         themes: [],
-        themeCounts: [],
+        themeCounts: {
+          count: 0,
+          theme: "",
+        },
       },
     },
   });
@@ -62,7 +65,7 @@ export default function Content() {
       });
       return;
     }
-    const temp = await analysisLocal(JSON.parse(text));
+    const temp = (await analysisLocal(JSON.parse(text))) as LogAnalysis;
     setLocalData(temp);
   };
 
@@ -77,7 +80,7 @@ export default function Content() {
     setLoading(true);
     onAnalyze();
 
-    const aiResponse = await analysisWithAI(JSON.parse(text));
+    const aiResponse = (await analysisWithAI(JSON.parse(text))) as ContentData;
     setAiData(aiResponse);
     setAiDataLoaded(true);
     setLoading(false);
